@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block content %}
+ <div class="px-6 py-4 grid grid-cols-4 gap-2 bg-gray-100">
+        <div class="col-span-1">
+            <form method="get" action="{% url 'item:search' %}">
+                {% comment %} the method is get, so the value of it will be in the url, name=value "name here we call it query" {% endcomment %}
+                <input name="query" class="w-full py-4 px-6 border rounded-xl" type="text" value="{{ query }}" placeholder="Find a bike, a chair or car...">
+
+                <button class="mt-2 py-4 px-8 text-lg bg-teal-500 text-white rounded-xl">Search</button>
+            </form>
+
+            <hr class="my-6">
+
+            <p class="font-semibold">Categories</p>
+
+            <ul>
+                {% for category in categories %}
+                    <li class="py-2 px-2 rounded-xl{% if category.id == category_id %} bg-gray-200{% endif %}">
+                        <a href="{% url 'item:search' %}?query={{ query }}&category={{ category.id }}">{{ category.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <hr class="my-6">
+
+            <p class="font-semibold">Clear filters</p>
+
+            <ul>
+                <li><a href="{% url 'item:search' %}" class="mt-2 py-4 px-8 inline-block bg-yellow-500 text-lg rounded-xl text-white">Clear</a>
+        </div>
+    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl col-span-3">
+        <h2 class="mb-12 text-2xl text-center">Newest items</h2>
+
+        <div class="grid grid-cols-3 gap-3">
+            {% for item in items %}
+                <div>
+                    {% comment %} item.id represent the primary key we are using in item.views.detail {% endcomment %}
+                    <a href="{% url 'item:detail' item.id %}"> 
+                        <div>
+                            <img src="{{ item.image.url }}" class="rounded-t-xl">
+                        </div>
+
+                        <div class="p-6 bg-white rounded-b-xl flex justify-between items-center">
+                        <div class='text'>
+                            <h2 class="text-2xl">{{ item.name }}</h2>
+                            <p class="text-gray-500">Price: {{ item.price }}$</p>
+                        </div>
+                        <a href="#">
+                            <div class="span-container" data-item-index="{{ forloop.counter }}">
+                                <i class="far fa-heart text-red-600 hover:text-red-400 text-2xl mr-2" id='heartIcon{{ forloop.counter }}' title="add to cart"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+</div>
+<div class="flex justify-center align-center">
+        <button onclick="alert(hii)">Show more</button>
+    </div>    
+
+    {% comment %} Category section {% endcomment %}
+    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h2 class="mb-12 text-2xl text-center">Categories</h2>
+
+        <div class="grid grid-cols-3 gap-3">
+            {% for category in categories %}
+                <div>
+                    <a href="{% url 'item:search' %}?query={{ query }}&category={{ category.id }}">
+                        <div class="p-6 bg-white rounded-b-xl">
+                            <h2 class="text-2xl">{{ category.name }}</h2>
+                            <p class="text-gray-500">{{ category.items.count }} items</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    <script>
+        document.querySelectorAll('.span-container').forEach(function(element) {
+        element.addEventListener('click', function(e) {
+            e.preventDefault();
+            var itemIndex = this.getAttribute('data-item-index');
+            addCart(itemIndex);
+        });
+    });
+
+    function addCart(itemIndex) {
+        console.log(itemIndex);
+        var heartIcon = document.getElementById('heartIcon' + itemIndex);
+        console.log(heartIcon);
+
+        // Toggle between far and fas classes
+        if (heartIcon.classList.contains('far')) {
+            heartIcon.classList.remove('far');
+            heartIcon.classList.add('fas');
+        } else {
+            heartIcon.classList.remove('fas');
+            heartIcon.classList.add('far');
+        }
+    }
+    </script>
+{% endblock %}
