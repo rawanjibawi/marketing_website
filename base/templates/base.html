@@ -1,30 +1,32 @@
+{% load static %}
 <!doctype html>
-
 <html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/animation.css' %}"/>
         {% comment %} this fontawesome if of version 5, the website icons, not all works, choose icons that support version 5 {% endcomment %}
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
         <title>{% block title %}{% endblock %} | Market</title>
+        {% comment %} defer means that i want js file to execute when html execution is done {% endcomment %}
     </head>
 
     <body>
         <nav class="py-6 px-6 flex justify-between items-center border-b border-gray-200">
-            <a href="/" class="text-xl font-semibold">Market Website</>
+            <a href="/" class="text-xl font-semibold">Market Website</a>
 
             <div class="space-x-6">           
                      {% comment %} only staff member can access the new item and dashboard  {% endcomment %}
                 {% if request.user.is_staff %}
                 <a href="{% url 'item:add-item' %}" class="text-lg font-semibold hover:text-gray-500">New item</a>
                 {% endif %}
-                <a href="{% url 'home' %}" class="text-lg font-semibold hover:text-gray-500">Browse</a>
+                <a href="{% url 'browse' %}" class="text-lg font-semibold hover:text-gray-500">Browse</a>
                 {% comment %} if user is authenticate (exist in database or he is login show those two buttons ) {% endcomment %}
                 
                 {% if request.user.is_authenticated %}
-                    <a href="/logout" class='text-lg font-semibold hover:text-gray-500'>logout</a>
+                    <a href="{% url 'logout' %}" class='text-lg font-semibold hover:text-gray-500'>logout</a>
                     {% comment %} add to cart {% endcomment %}
                     <a href='#'><i class="fas fa-shopping-cart text-red-600 hover:text-red-400 text-2xl mr-2"></i></a>
                     <a href="#" class="px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700">Inbox</a>
@@ -64,4 +66,6 @@
             </div>
         </footer>
     </body>
+        <script type="text/javascript" src="{% static 'js/animation.js' %}"></script>
+
 </html>

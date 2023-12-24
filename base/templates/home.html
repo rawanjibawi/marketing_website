@@ -1,12 +1,26 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}
 Home
 {% endblock %}
 
 {% block content %}
- <div class="px-6 py-4 grid grid-cols-4 gap-2 bg-gray-100">
-        <div class="col-span-1">
+<div class="mb-12 hide">
+    <div class="relative mx-auto max-w-100">
+        <div id="slides-container" class="flex aspect-w-16 aspect-h-9 overflow-x-hidden smooth-scrollbar shadow-md rounded-md max-h-[95vh]">
+            <img id="slide-1" alt="toys" src="{% static 'images/bg1.jpg' %}" class="flex-grow flex-shrink-0 w-full scroll-snap-align-start object-cover h-80vh" />
+            <img id="slide-2" alt="furniture" src="{% static 'images/bg2.jpg' %}" class="flex-grow flex-shrink-0 w-full scroll-snap-align-start object-cover h-80vh" />
+            <img id="slide-3" alt="clothes" src="{% static 'images/bg3.jpg' %}" class="flex-grow flex-shrink-0 w-full scroll-snap-align-start object-cover h-80vh" />
+        </div>
+        <div class="flex flex-row gap-4 absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10">
+            <a href="#slide-1" onclick="scrollToSlide('#slide-1')" class="w-2 h-2 rounded-full bg-white opacity-75 transition-opacity ease-in duration-250 hover:opacity-100"></a>
+            <a href="#slide-2" onclick="scrollToSlide('#slide-2')" class="w-2 h-2 rounded-full bg-white opacity-75 transition-opacity ease-in duration-250 hover:opacity-100"></a>
+            <a href="#slide-3" onclick="scrollToSlide('#slide-3')" class="w-2 h-2 rounded-full bg-white opacity-75 transition-opacity ease-in duration-250 hover:opacity-100"></a>
+        </div>
+    </div>
+</div>
+ <div class="px-6 py-4 grid grid-cols-4 gap-2 bg-gray-100 hide"'>
+        <div class="col-span-1" id="items">
             <form method="get" action="{% url 'item:search' %}">
                 {% comment %} the method is get, so the value of it will be in the url, name=value "name here we call it query" {% endcomment %}
                 <input name="query" class="w-full py-4 px-6 border rounded-xl" type="text" value="{{ query }}" placeholder="Find a bike, a chair or car...">
@@ -21,7 +35,7 @@ Home
             <ul>
                 {% for category in categories %}
                     <li class="py-2 px-2 rounded-xl{% if category.id == category_id %} bg-gray-200{% endif %}">
-                        <a href="{% url 'item:search' %}?query={{ query }}&category={{ category.id }}">{{ category.name }}</a>
+                        <a href="{% url 'item:search' %}?query={{ query }}&category={{ category.id }}#items">{{ category.name }}</a>
                     </li>
                 {% endfor %}
             </ul>
@@ -36,7 +50,7 @@ Home
     <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl col-span-3">
         <h2 class="mb-12 text-2xl text-center">Newest items</h2>
 
-        <div class="grid grid-cols-3 gap-3">
+        <div class="grid grid-cols-3 gap-3 hide" >
             {% for item in items %}
                 <div>
                     {% comment %} item.id represent the primary key we are using in item.views.detail {% endcomment %}
@@ -52,7 +66,7 @@ Home
                         </div>
                         <a href="#">
                             <div class="span-container" data-item-index="{{ forloop.counter }}">
-                                <i class="far fa-heart text-red-600 hover:text-red-400 text-2xl mr-2" id='heartIcon{{ forloop.counter }}' title="add to cart"></i>
+                                <i class="far fa-heart text-red-600 hover:text-red-400 text-2xl mr-2" id='heartIcon{{ forloop.counter }}' title="add to cart" id="add-cart" value="{{ item.id }}" onclick="addtocart()"></i>
                             </div>
                         </a>
                     </div>
@@ -63,17 +77,18 @@ Home
 </div>
 </div>
 <div class="flex justify-center align-center">
-        <button onclick="alert(hii)">Show more</button>
+        <a href="{% url 'browse' %}">Show more</a>
     </div>    
 
     {% comment %} Category section {% endcomment %}
     <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
         <h2 class="mb-12 text-2xl text-center">Categories</h2>
 
-        <div class="grid grid-cols-3 gap-3">
+        <div class="grid grid-cols-3 gap-3 hide">
             {% for category in categories %}
                 <div>
-                    <a href="{% url 'item:search' %}?query={{ query }}&category={{ category.id }}">
+                    {% comment %} when we have query ?category it's better to add the anchor link to the end of the website {% endcomment %}
+                    <a href="{% url 'item:search' %}?category={{ category.id }}#items">
                         <div class="p-6 bg-white rounded-b-xl">
                             <h2 class="text-2xl">{{ category.name }}</h2>
                             <p class="text-gray-500">{{ category.items.count }} items</p>
@@ -105,5 +120,18 @@ Home
             heartIcon.classList.add('far');
         }
     }
+    // slide image functionality
+
+    function scrollToSlide(slideId) {
+        const slidesContainer = document.getElementById('slides-container');
+        const targetSlide = document.querySelector(slideId);
+
+        slidesContainer.scroll({
+            left: targetSlide.offsetLeft,
+            behavior: 'smooth',
+        });
+    }
+
     </script>
+    <script type="text/javascript" src="{% static 'js/addtocart.js' %}"></script>
 {% endblock %}

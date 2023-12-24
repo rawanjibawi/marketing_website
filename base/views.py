@@ -3,15 +3,27 @@ from items.models import Category, Item
 from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 from .forms import SignUpForm, LoginForm
+import random
+from rest_framework.decorators import api_view
 
-
+@api_view()
 def home(request):
-    items = Item.objects.filter(is_sold=False)[0:6] # we want to get all items that are available and we just want to show 6 of them
+    available_item_ids = Item.objects.filter(is_sold=False).values_list('id', flat=True) # get all the id's
+    # Shuffle the list of item IDs randomly
+    random_item_ids = random.sample(list(available_item_ids), min(6, len(available_item_ids))) # shuffle id's, sample give you a new id everytime
+    # The id__in is a Django query filter that is used to filter query results based on a list of specific IDs
+    items = Item.objects.filter(id__in=random_item_ids)
     categories = Category.objects.all() # show all the categories available
     return render(request, 'home.html', {
         'categories': categories,
         'items': items,
     }) # to use them in our templates we have to pass them as objects
+
+def show_all(request):
+    items = Item.objects.filter(is_sold=False)
+    return render(request, 'items.html', {
+        "items": items
+    })
 
 def contact(request):
     return render(request, 'contact.html', {}) # return keyword is very important else it will cause an error
@@ -49,4 +61,7 @@ def login_view(request):
     return render(request, 'login.html', {"form": form})
 
 
-    
+def logout_view(request):
+  if request.method == 'GET':
+    logout(request)
+    return redirect('/')

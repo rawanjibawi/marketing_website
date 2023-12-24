@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
     'dashboard.apps.DashboardConfig',
     'conversation.apps.ConversationConfig',
     'widget_tweaks',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -132,6 +134,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'items/static'),
+    os.path.join(BASE_DIR, 'base/static'), # app name/ static (or name of static folder)
+
+    # Add more paths if needed
+]
 MEDIA_URL='media/'
 MEDIA_ROOT = BASE_DIR/'media' # BASE_DIR represent the path (location) of our project
 
