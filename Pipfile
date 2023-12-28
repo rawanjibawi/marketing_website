@@ -9,6 +9,7 @@ mysqlclient = "*"
 pillow = "*"
 django-widget-tweaks = "*"
 djangorestframework = "*"
+six = "*"
 
 [dev-packages]
 

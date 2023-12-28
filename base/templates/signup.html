@@ -36,10 +36,36 @@
                 {% endfor %}
 
                 {{ form.non_field_errors }}
+                
             </div>
+        {% else %}
+        <p> </p>
         {% endif %}
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.level == messages.SUCCESS %}
+                    <h1>hiii</h1>
+                    <div class="mb-3 p-6 bg-green-100 rounded-xl">
+                        {{ message }}
+                    </div>
+                {% elif message.level == messages.ERROR %}
+                <h1>hello</h1>
+                    <div class="mb-3 p-6 bg-red-100 rounded-xl">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p>hello world </p>
+        {% endif %}
+
 
         <button class="py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Submit</button>
     </form>
+
+
 </div>
+    <div class='flex justify-center'>
+    <p>Already have an account? <a href="{% url 'login' %}" class="underline text-blue-400">Login</a></p>
+    </div>
 {% endblock %}

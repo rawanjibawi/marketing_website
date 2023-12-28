@@ -32,6 +32,13 @@ class CartItem(models.Model):
     quantity = models.PositiveIntegerField(default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date_added = models.DateTimeField(auto_now_add=True)
+    # subtotal = models.DecimalField(max_digits=10, decimal_places=2) # total price of add to cart
+    completed = models.BooleanField(default=False) # when items are parshase 
+
+    # def save(self, *args, **kwargs): 
+    #     # Calculate subtotal before saving
+    #     self.subtotal += self.product.price * self.quantity
+    #     super().save(*args, **kwargs)
 
     def __str__(self):
-        return f'{self.quantity} x {self.product.name}'
+        return f'{self.quantity} x {self.Item.name}'

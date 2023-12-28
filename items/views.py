@@ -3,6 +3,7 @@ from .models import Item, Category
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from .forms import NewItemForm, EditItemForm
+from django.http import HttpResponse
 # Create your views here.
 
 
@@ -79,5 +80,6 @@ def delete(request, id):
 @login_required
 def add_cart(request):
     is_staff = request.user.is_staff # in template, we will check if !is_staff (only Customer I want them to show the add_cart)
-    return render(request, 'add_cart.html', {"staff":is_staff})
+    # return render(request, 'add_cart.html', {"staff":is_staff})
+    return HttpResponse("hello world")
         

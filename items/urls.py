@@ -10,7 +10,7 @@ urlpatterns = [
     path('add-item', views.add_item, name='add-item'),
     path('<int:id>/delete', views.delete, name='delete'),
     path('<int:id>/edit', views.edit_item, name='edit'),
-    path('add-cart', views.add_cart, name='add-cart')
+    path('add-cart/', views.add_cart, name='add-cart')
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

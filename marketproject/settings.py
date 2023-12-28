@@ -27,7 +27,16 @@ SECRET_KEY = 'django-insecure-v%m)z&c!f8ddww^z=+x#^e6#c6+3xn1@ysm-7_i+ks2i1(zae9
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+# Email generator verification 
+# NOTE: make sure you have 2 step verification in the email you want to send from
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_FROM = 'marketingwebsite@gmail.com'
+EMAIL_HOST_USER = 'rawan.jibawi3@gmail.com' # this email will be from: in the email section
+EMAIL_HOST_PASSWORD = 'pwwh xaeb sdwr yrjh'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+PASSWORD_RESET_TIMEOUT = 14400 # after 4 hours, we have to send email again, since token would be expired
 
 # Application definition
 

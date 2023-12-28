@@ -3,6 +3,26 @@
 {% block title %}Log in{% endblock %}
 
 {% block content %}
+{% if messages %}
+            {% for message in messages %}
+                {% if message.level == messages.SUCCESS %}
+                    <div class="fixed top-0 flex justify-between mb-3 p-6 bg-green-100 rounded-xl overlay">
+                        <div id="popup" class="flex-1">
+                            <p>{{ message }}</p>
+                            <span class="close" onclick="document.getElementById('overlay').style.display='none">&times;</span>
+                        </div>
+                    </div>
+                {% elif message.level == messages.ERROR %}
+                    <div class="fixed top-0 flext justify-between mb-3 p-6 bg-red-100 rounded-xl overlay">
+                        <div id="popup" class="flex-1">
+                            <p>{{ message }}</p>
+                            <span class="close" onclick="document.getElementById('overlay').style.display='none">&times;</span>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
 {% if request.user.is_authenticated %}
 <h1> You already Logged in do you want to <a href="logout/" class="text-blue">Logout</h1>
 {% else %}
@@ -30,7 +50,10 @@
 
         <button class="py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Submit</button>
     </form>
-    
+</div>
+<div class='flex flex-col items-center'>
+    <p>Don't have an account? <a href="{% url 'signup' %}" class="underline text-blue-400">Signup</a></p>
+    <p>Forget password?<a href="#" class="underline text-blue-400">Reset Password</a></p>
 </div>
 {% endif %}
 {% endblock %}

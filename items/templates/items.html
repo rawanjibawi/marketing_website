@@ -47,7 +47,11 @@
                                 <h2 class="text-2xl">{{ item.name }}</h2>
                                 <p class="text-gray-500">Price: {{ item.price }}$</p>
                             </div>
-                            <a href="#" id="add_cart" onClick="addCart()"><i class="fa-regular fa-heart ml-auto "></i></a>
+                            <a href="#" id="add_cart">
+                            <div class="span-container" data-item-index="{{ forloop.counter }}">
+                                <i class="far fa-heart text-red-600 hover:text-red-400 text-2xl mr-2" id='heartIcon{{ forloop.counter }}' title="add to cart" value="{{ item.id }}"></i>
+                            </div>
+                            </a>
                         </div>
                     </a>
                 </div>

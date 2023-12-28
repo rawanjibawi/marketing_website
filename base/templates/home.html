@@ -47,9 +47,11 @@ Home
             <ul>
                 <li><a href="{% url 'item:search' %}" class="mt-2 py-4 px-8 inline-block bg-yellow-500 text-lg rounded-xl text-white">Clear</a>
         </div>
+        {% comment %} Cache images in the home page, caching specific page {% endcomment %}
+        {% load cache %}
     <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl col-span-3">
         <h2 class="mb-12 text-2xl text-center">Newest items</h2>
-
+        {% cache 3600 home_cache %}
         <div class="grid grid-cols-3 gap-3 hide" >
             {% for item in items %}
                 <div>
@@ -66,12 +68,13 @@ Home
                         </div>
                         <a href="#">
                             <div class="span-container" data-item-index="{{ forloop.counter }}">
-                                <i class="far fa-heart text-red-600 hover:text-red-400 text-2xl mr-2" id='heartIcon{{ forloop.counter }}' title="add to cart" id="add-cart" value="{{ item.id }}" onclick="addtocart()"></i>
+                                <i class="far fa-heart text-red-600 hover:text-red-400 text-2xl mr-2" id='heartIcon{{ forloop.counter }}' title="add to cart" data-mydata="{{item.id}}"></i>
                             </div>
                         </a>
                     </div>
                 </div>
             {% endfor %}
+            {% endcache %}
         </div>
     </div>
 </div>
@@ -106,10 +109,8 @@ Home
         });
     });
 
-    function addCart(itemIndex) {
-        console.log(itemIndex);
+    function addtoCart(itemIndex) {
         var heartIcon = document.getElementById('heartIcon' + itemIndex);
-        console.log(heartIcon);
 
         // Toggle between far and fas classes
         if (heartIcon.classList.contains('far')) {
@@ -133,5 +134,4 @@ Home
     }
 
     </script>
-    <script type="text/javascript" src="{% static 'js/addtocart.js' %}"></script>
 {% endblock %}
