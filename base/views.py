@@ -145,20 +145,20 @@ def logout_view(request):
 # cache home page for images only
 
 
-@cache_page(3600, key_prefix='home_cache')
-def view1(request):
-    context = {}
-    return render(request, 'home.html', context)
+# @cache_page(3600, key_prefix='home_cache')
+# def view1(request):
+#     context = {}
+#     return render(request, 'home.html', context)
 
 
-@cache_page(3600, key_prefix='browse_cache')
-def view1(request):
-    context = {}
-    return render(request, 'items.html', context)
+# @cache_page(3600, key_prefix='browse_cache')
+# def view1(request):
+#     context = {}
+#     return render(request, 'items.html', context)
 
 
-# check if it cached or not
-if cache.get('home_cache'):
-    print('View 1 content is in the cache.')
-else:
-    print("not cached")
+# # check if it cached or not
+# if cache.get('home_cache'):
+#     print('View 1 content is in the cache.')
+# else:
+#     print("not cached")

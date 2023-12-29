@@ -53,7 +53,7 @@
 </div>
 <div class='flex flex-col items-center'>
     <p>Don't have an account? <a href="{% url 'signup' %}" class="underline text-blue-400">Signup</a></p>
-    <p>Forget password?<a href="#" class="underline text-blue-400">Reset Password</a></p>
+    <p>Forget password?<a href="{% url 'reset_password' %}" class="underline text-blue-400">Reset Password</a></p>
 </div>
 {% endif %}
 {% endblock %}

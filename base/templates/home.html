@@ -48,11 +48,12 @@ Home
                 <li><a href="{% url 'item:search' %}" class="mt-2 py-4 px-8 inline-block bg-yellow-500 text-lg rounded-xl text-white">Clear</a>
         </div>
         {% comment %} Cache images in the home page, caching specific page {% endcomment %}
-        {% load cache %}
+        {% comment %} {% load cache %} {% endcomment %}
     <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl col-span-3">
         <h2 class="mb-12 text-2xl text-center">Newest items</h2>
-        {% cache 3600 home_cache %}
+        {% comment %} {% cache 3600 home_cache %} {% endcomment %}
         <div class="grid grid-cols-3 gap-3 hide" >
+        {% if items %}
             {% for item in items %}
                 <div>
                     {% comment %} item.id represent the primary key we are using in item.views.detail {% endcomment %}
@@ -74,7 +75,14 @@ Home
                     </div>
                 </div>
             {% endfor %}
-            {% endcache %}
+            {% else %}
+            <div class="flex items-center justify-center">
+                <div class="bg-white p-8 rounded-lg shadow-md text-center">
+                    <h1 class="text-4xl font-bold mb-4">No items found</h1>
+                </div>
+            </div>
+            {% endif %}
+            {% comment %} {% endcache %} {% endcomment %}
         </div>
     </div>
 </div>

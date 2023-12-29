@@ -38,6 +38,14 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 PASSWORD_RESET_TIMEOUT = 14400 # after 4 hours, we have to send email again, since token would be expired
 
+
+# Cache option
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#         'LOCATION': '127.0.0.1:11211',
+#     }
+# }
 # Application definition
 
 INSTALLED_APPS = [

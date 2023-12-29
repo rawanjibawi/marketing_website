@@ -19,10 +19,12 @@ def items(request):
 
     # if user select category
     if category_id:
+        print("hii")
         items = items.filter(category_id=category_id)
 
     # if query exist (user is searching for an item)
     if query:
+        print("gello")
         # to search for description as well we use the Q
         # icontains is a seach method for name, i in contains is for insensitive case
         # category is foreign key in items, to be abel to query it you have to specify which column in category you want to search on, in my case is name
