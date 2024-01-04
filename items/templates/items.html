@@ -3,6 +3,7 @@
 {% block title %}Items{% endblock %}
 
 {% block content %}
+<h1>Gello world</h1>
     <div class="px-6 py-4 grid grid-cols-4 gap-4 bg-gray-100">
         <div class="col-span-1">
             <form method="get" action="{% url 'item:items' %}">
@@ -35,26 +36,7 @@
         <div class="col-span-3">
             <div class="grid grid-cols-3 gap-3">
                 {% for item in items %}
-                     <div>
-                    {% comment %} item.id represent the primary key we are using in item.views.detail {% endcomment %}
-                    <a href="{% url 'item:detail' item.id %}"> 
-                        <div>
-                            <img src="{{ item.image.url }}" class="rounded-t-xl">
-                        </div>
-
-                        <div class="p-6 bg-white rounded-b-xl flex justify-center items-center space-between">
-                            <div>
-                                <h2 class="text-2xl">{{ item.name }}</h2>
-                                <p class="text-gray-500">Price: {{ item.price }}$</p>
-                            </div>
-                            <a href="#" id="add_cart">
-                            <div class="span-container" data-item-index="{{ forloop.counter }}">
-                                <i class="far fa-heart text-red-600 hover:text-red-400 text-2xl mr-2" id='heartIcon{{ forloop.counter }}' title="add to cart" value="{{ item.id }}"></i>
-                            </div>
-                            </a>
-                        </div>
-                    </a>
-                </div>
+                     {% include 'item_container.html' %}
                 {% endfor %}
             </div>
         </div>

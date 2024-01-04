@@ -1,0 +1,18 @@
+
+<div>
+    {% comment %} item.id represent the primary key we are using in item.views.detail {% endcomment %}
+    <a href="{% url 'item:detail' item.id %}"> 
+        <div>
+            <img src="{{ item.image.url }}" class="rounded-t-xl">
+        </div>
+
+        <div class="p-6 bg-white rounded-b-xl">
+        <div class='text'>
+            <h2 class="text-2xl">{{ item.name }}</h2>
+            <p class="text-gray-500">Price: {{ item.price }}$</p>
+        </div>
+                {% comment %} when we don't have value attribute and we want to send data when clicked, we can use data-NameOfData {% endcomment %}
+        <a href="{% url 'cart:add_to_cart' item.id %}" class='text-center block bg-gray-800 text-white py-2 px-4 rounded-full mt-2 border-none cursor-pointer hover:bg-gray-700 hover:text-gray-300'>Add to cart</a>
+    </div>
+</div>
+            

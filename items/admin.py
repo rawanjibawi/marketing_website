@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Item, CartItem
+from .models import Category, Item
 # Register your models here.
 
 
@@ -7,4 +7,4 @@ from .models import Category, Item, CartItem
 
 admin.site.register(Category)
 admin.site.register(Item)
-admin.site.register(CartItem)
+# admin.site.register(CartItem)

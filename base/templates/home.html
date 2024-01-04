@@ -5,7 +5,7 @@ Home
 {% endblock %}
 
 {% block content %}
-<div class="mb-12 hide">
+<div class="mb-12 transform translate-x-[-250px] hide">
     <div class="relative mx-auto max-w-100">
         <div id="slides-container" class="flex aspect-w-16 aspect-h-9 overflow-x-hidden smooth-scrollbar shadow-md rounded-md max-h-[95vh]">
             <img id="slide-1" alt="toys" src="{% static 'images/bg1.jpg' %}" class="flex-grow flex-shrink-0 w-full scroll-snap-align-start object-cover h-80vh" />
@@ -50,30 +50,12 @@ Home
         {% comment %} Cache images in the home page, caching specific page {% endcomment %}
         {% comment %} {% load cache %} {% endcomment %}
     <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl col-span-3">
-        <h2 class="mb-12 text-2xl text-center">Newest items</h2>
+        <h2 class="mb-12 text-2xl text-center">Random Items</h2>
         {% comment %} {% cache 3600 home_cache %} {% endcomment %}
         <div class="grid grid-cols-3 gap-3 hide" >
         {% if items %}
             {% for item in items %}
-                <div>
-                    {% comment %} item.id represent the primary key we are using in item.views.detail {% endcomment %}
-                    <a href="{% url 'item:detail' item.id %}"> 
-                        <div>
-                            <img src="{{ item.image.url }}" class="rounded-t-xl">
-                        </div>
-
-                        <div class="p-6 bg-white rounded-b-xl flex justify-between items-center">
-                        <div class='text'>
-                            <h2 class="text-2xl">{{ item.name }}</h2>
-                            <p class="text-gray-500">Price: {{ item.price }}$</p>
-                        </div>
-                        <a href="#">
-                            <div class="span-container" data-item-index="{{ forloop.counter }}">
-                                <i class="far fa-heart text-red-600 hover:text-red-400 text-2xl mr-2" id='heartIcon{{ forloop.counter }}' title="add to cart" data-mydata="{{item.id}}"></i>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                {% include 'item_container.html' %}
             {% endfor %}
             {% else %}
             <div class="flex items-center justify-center">
@@ -107,13 +89,15 @@ Home
                     </a>
                 </div>
             {% endfor %}
+            
         </div>
+       
+
     <script>
         document.querySelectorAll('.span-container').forEach(function(element) {
         element.addEventListener('click', function(e) {
             e.preventDefault();
             var itemIndex = this.getAttribute('data-item-index');
-            addCart(itemIndex);
         });
     });
 
@@ -140,6 +124,5 @@ Home
             behavior: 'smooth',
         });
     }
-
     </script>
 {% endblock %}

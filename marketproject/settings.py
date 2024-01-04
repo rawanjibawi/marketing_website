@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'items.apps.ItemsConfig',
     'dashboard.apps.DashboardConfig',
     'conversation.apps.ConversationConfig',
+    'cart.apps.CartConfig',
     'widget_tweaks',
     'rest_framework',
 ]

@@ -27,18 +27,21 @@ class Item(models.Model):
         return self.name
     
 
-class CartItem(models.Model):
-    Item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField(default=0)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date_added = models.DateTimeField(auto_now_add=True)
-    # subtotal = models.DecimalField(max_digits=10, decimal_places=2) # total price of add to cart
-    completed = models.BooleanField(default=False) # when items are parshase 
 
-    # def save(self, *args, **kwargs): 
-    #     # Calculate subtotal before saving
-    #     self.subtotal += self.product.price * self.quantity
-    #     super().save(*args, **kwargs)
+class OrderItem(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+
 
     def __str__(self):
-        return f'{self.quantity} x {self.Item.name}'
+        return self.title
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    items = models.ManyToManyField(OrderItem)
+    start_date = models.DateTimeField(auto_now_add=True)
+    ordered_date = models.DateTimeField()
+    ordered = models.BooleanField(default=False)
+    
+
+    def __str__(self):
+        return self.title

@@ -12,26 +12,7 @@ Home
 
         <div class="grid grid-cols-3 gap-3 hide">
             {% for item in items %}
-                <div>
-                    {% comment %} item.id represent the primary key we are using in item.views.detail {% endcomment %}
-                    <a href="{% url 'item:detail' item.id %}"> 
-                        <div>
-                            <img src="{{ item.image.url }}" class="rounded-t-xl">
-                        </div>
-
-                        <div class="p-6 bg-white rounded-b-xl flex justify-between items-center">
-                        <div class='text'>
-                            <h2 class="text-2xl">{{ item.name }}</h2>
-                            <p class="text-gray-500">Price: {{ item.price }}$</p>
-                        </div>
-                        <a href="#" title="add to cart">
-                            <div class="span-container" data-item-index="{{ forloop.counter }}">
-                                {% comment %} we want to take the product id when clicking, we use data-nameofdata to pass data to element without effecting the visiual {% endcomment %}
-                                <i class="far fa-heart text-red-600 hover:text-red-400 text-2xl mr-2" id='heartIcon{{ forloop.counter }}' data-mydata="{{item.id}}""></i> 
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                {% include 'item_container.html' %}
             {% endfor %}
         </div>
     </div>

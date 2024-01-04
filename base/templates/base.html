@@ -11,6 +11,12 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
         <title>{% block title %}{% endblock %} | Market</title>
         {% comment %} defer means that i want js file to execute when html execution is done {% endcomment %}
+        <script>
+            //check if user is authenticated or not (we will access this inside addtocart.js file)
+            let user = '{{request.user.is_authenticated}}'; // it will return true or false
+            // the reason we wrote it here w not in addtocart.js is because we want to access the request.user.is_authenticated
+            console.log(user);
+        </script>
     </head>
 
     <body>
@@ -23,12 +29,15 @@
                 <a href="{% url 'item:add-item' %}" class="text-lg font-semibold hover:text-gray-500">New item</a>
                 {% endif %}
                 <a href="{% url 'browse' %}" class="text-lg font-semibold hover:text-gray-500">Browse</a>
-                {% comment %} if user is authenticate (exist in database or he is login show those two buttons ) {% endcomment %}
                 
+                {% comment %} if user is authenticate (exist in database or he is login show those two buttons ) {% endcomment %}
                 {% if request.user.is_authenticated %}
                     <a href="{% url 'logout' %}" class='text-lg font-semibold hover:text-gray-500'>logout</a>
                     {% comment %} add to cart {% endcomment %}
-                    <a href='#'><i class="fas fa-shopping-cart text-red-600 hover:text-red-400 text-2xl mr-2"></i></a>
+                    <div class='inline'>
+                    <a href='#'><i class="fas fa-shopping-cart text-white-600 hover:text-red-400 text-2xl"></i></a>
+                    <span>0</span>
+                    </div>
                     <a href="#" class="px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700">Inbox</a>
                     {% if request.user.is_staff %}
                     {% comment %} dashboard:dashboard the second attribute is the value of name in urls path('', views.index, name='dashboard') we take the value in name and we put {% endcomment %}
