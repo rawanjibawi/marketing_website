@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-v%m)z&c!f8ddww^z=+x#^e6#c6+3xn1@ysm-7_i+ks2i1(zae9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 # Email generator verification 
@@ -115,6 +117,10 @@ DATABASES = {
         }
     }
 }
+# use this in render 
+DATABASES = {'default': dj_database_url.config(
+    default=os.environ.get('DATABASE_URL'))}
+
 
 
 # Password validation
