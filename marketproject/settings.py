@@ -23,15 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-v%m)z&c!f8ddww^z=+x#^e6#c6+3xn1@ysm-7_i+ks2i1(zae9'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
-ALLOWED_HOSTS = [
-    'https://ecommerce-qmke.onrender.com',
-    '127.0.0.1'
-]
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 # Email generator verification 
 # NOTE: make sure you have 2 step verification in the email you want to send from
 EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
@@ -107,22 +104,22 @@ WSGI_APPLICATION = 'marketproject.wsgi.application'
 
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 # Database here is used for development, don't use it in production
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'marketing_database',
-        'USER':'root',
-        'PASSWORD':'Admin@2003',
-        'HOST':'127.0.0.1',
-        'PORT':'3306',
-        'OPTIONS':{
-            'init_command':"SET sql_mode='STRICT_TRANS_TABLES'"
-        }
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'marketing_database',
+#         'USER':'root',
+#         'PASSWORD':'Admin@2003',
+#         'HOST':'127.0.0.1',
+#         'PORT':'3306',
+#         'OPTIONS':{
+#             'init_command':"SET sql_mode='STRICT_TRANS_TABLES'"
+#         }
+#     }
+# }
 # use this in render 
-# DATABASES = {'default': dj_database_url.config(
-#     default=os.environ.get('DATABASE_URL'))}
+DATABASES = {'default': dj_database_url.config(
+    default=os.environ.get('DATABASE_URL'))}
 
 
 
