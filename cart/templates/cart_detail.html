@@ -1,39 +1,71 @@
 {% extends "base.html" %}
+{% load static %}
+{% block title %}
+Cart 
+{% endblock %}
 {% block content %}
 
     {% if cart_items %}
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Total Price</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in cart_items %}
-                    <tr>
-                        <td>{{ item.product }}</td>
-                        <td>{{ item.quantity }}</td>
-                        <td>{{ item.product.price }}</td>
-                        <td>{{ item.quantity }} x {{ item.Item.name }}$</td>
-                        <td><a href="{% url 'cart:remove_from_cart' item.id %}">Remove</a></td>
+        <div class="container mx-auto mt-8">
+            <table class="min-w-full bg-white border border-gray-200">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="py-2 px-4">Image</th>
+                        <th class="py-2 px-4">Product</th>
+                        <th class="py-2 px-4">Quantity</th>
+                        <th class="py-2 px-4">Price</th>
+                        <th class="py-2 px-4">Total Price</th>
+                        <th class="py-2 px-4"></th>
                     </tr>
-                {% endfor %}
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="3"></td>
-                    <td>Total:</td>
-                    <td>{{ total_price }}$</td>
-                </tr>
-            </tfoot>
-        </table>
+                </thead>
+                <tbody>
+                    
+                    {% for item in cart_items %}
+                        <tr>
+                            <td class="py-2 px-4">
+                                <div class="w-20 h-20 overflow-hidden">
+                                    <img src="{{ item.Item.image.url }}" alt="{{ item.Item.name }}" class="w-full h-full object-cover">
+                                </div>
+                            </td>
+                            <td class="py-2 px-4 text-center">{{ item.Item.name }}</td>
+                            <td class="py-2 px-4 text-center">
+                                <div class="flex items-center justify-center">
+                                    <a href="{% url 'cart:decrement_quantity' item.Item.id %}" class="cursor-pointer px-2">-</a>
+                                    <span id="quantity_{{ item.id }}" class="px-2">{{ item.quantity }}</span>
+                                    <a href="{% url 'cart:add_to_cart' item.Item.id %}" class="cursor-pointer px-2" >+</a>
+                                </div>
+                            </td>
+                            <td class="py-2 px-4 text-center">{{ item.Item.price }}$/item</td>
+                            {% comment %} this is used to do multiplication, syntax is the same just change item.quantity and item.Item.price {% endcomment %}
+                            <td class="py-2 px-4 text-center"> {% widthratio item.quantity 1 item.Item.price %}$</td>
+                            {% comment %} for division it is widthratio item.quantity item.Item.price 1{% endcomment %}
+                            <td class="py-2 px-4 text-center"><a href="{% url 'cart:remove_from_cart' item.id %}" class="text-red-500 hover:text-red-700">Remove</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3"></td>
+                        <td class="py-2 px-4 font-bold">Total:</td>
+                        <td class="py-2 px-4 font-bold">{{ total_price }}$</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
 
-        {% comment %} <a href="{% url 'checkout' %}" class="btn btn-primary">Checkout</a> {% endcomment %}
+            {% comment %} <a href="{% url 'checkout' %}" class="btn btn-primary mt-4">Checkout</a> {% endcomment %}
+        </div>
     {% else %}
-        <p>Your shopping cart is empty.</p>
-    {% endif %}
+    <div class="flex items-center justify-center h-screen bg-gray-100">
+        <div class="bg-white p-8 rounded shadow-lg">
+            <p class="text-2xl font-bold mb-4">Your shopping cart is empty.</p>
+            <p class="text-gray-600">Explore our products and add items to your cart to start shopping!</p>
+            <div class="mt-4">
+                <a href="{% url 'browse' %}" class="text-blue-500 hover:underline">Browse Products</a>
+            </div>
+        </div>
+    </div>
+{% endif %}
+    {% comment %} <script type="text/javascript" src="{% static 'cart.js' %}"></script> {% endcomment %}
+
 {% endblock %}

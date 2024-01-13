@@ -10,6 +10,9 @@ pillow = "*"
 django-widget-tweaks = "*"
 djangorestframework = "*"
 six = "*"
+gunicorn = "*"
+whitenoise = "*"
+dj-database-url = "*"
 
 [dev-packages]
 

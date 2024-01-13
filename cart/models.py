@@ -19,5 +19,8 @@ class Cart(models.Model):
     def __str__(self):
         return f'{self.quantity} x {self.Item.name}'
     
+    def total_price_per_item(self):
+        return self.quantity*self.Item.price
+    
     def get_absolute_url(self):
         return reverse("cart:cart_detail")

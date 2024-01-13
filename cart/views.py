@@ -3,7 +3,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Cart
 from items.models import Item
+from django.http import JsonResponse
+
 # Create your views here.
+
 
 '''
 "add_to_cart" handles adding items to the shopping cart. 
@@ -58,10 +61,37 @@ all items. We then render a template with this information
 def cart_detail(request):
     cart_items = Cart.objects.filter(user=request.user)
     total_price = sum(item.quantity * item.Item.price for item in cart_items)
-
+    total_prices_per_item = [instance.total_price_per_item() for instance in cart_items]
+    # total_prices_per_item = [item.quantity * item.Item.price for item in cart_items]
+    print(total_prices_per_item)
     context = {
         "cart_items": cart_items,
         "total_price": total_price,
+        "total_price_per_item": total_prices_per_item
     }
 
     return render(request, "cart_detail.html", context)
+
+# decrementing quantity
+
+
+@login_required
+def decrement_quantity(request, product_id):
+    print("hello decerment")
+    item = get_object_or_404(Item, id=product_id)
+    cart_item = Cart.objects.filter(user=request.user, Item=item).first()
+
+    if cart_item.user == request.user:
+        if cart_item.quantity > 1:
+            cart_item.quantity -= 1
+            cart_item.save()
+            messages.success(request, "Quantity decremented.")
+        else:
+            cart_item.delete()
+            messages.success(request, "Item removed from your cart.")
+
+        # total_price_per_item = cart_item.total_price_per_item()
+        # return JsonResponse({'success': True, 'quantity': cart_item.quantity, 'total_price_per_item': total_price_per_item})
+    # else:
+        # return JsonResponse({'success': False, 'message': 'Permission denied'})
+    return redirect("cart:cart_detail")
