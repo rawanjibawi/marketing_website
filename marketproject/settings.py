@@ -28,7 +28,10 @@ SECRET_KEY = 'django-insecure-v%m)z&c!f8ddww^z=+x#^e6#c6+3xn1@ysm-7_i+ks2i1(zae9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'https://ecommerce-qmke.onrender.com',
+    '127.0.0.1:8000'
+]
 # Email generator verification 
 # NOTE: make sure you have 2 step verification in the email you want to send from
 EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
