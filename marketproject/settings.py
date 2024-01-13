@@ -107,22 +107,22 @@ WSGI_APPLICATION = 'marketproject.wsgi.application'
 
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 # Database here is used for development, don't use it in production
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'marketing_database',
-#         'USER':'root',
-#         'PASSWORD':'Admin@2003',
-#         'HOST':'127.0.0.1',
-#         'PORT':'3306',
-#         'OPTIONS':{
-#             'init_command':"SET sql_mode='STRICT_TRANS_TABLES'"
-#         }
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'marketing_database',
+        'USER':'root',
+        'PASSWORD':'Admin@2003',
+        'HOST':'127.0.0.1',
+        'PORT':'3306',
+        'OPTIONS':{
+            'init_command':"SET sql_mode='STRICT_TRANS_TABLES'"
+        }
+    }
+}
 # use this in render 
-DATABASES = {'default': dj_database_url.config(
-    default=os.environ.get('DATABASE_URL'))}
+# DATABASES = {'default': dj_database_url.config(
+#     default=os.environ.get('DATABASE_URL'))}
 
 
 
